@@ -1,0 +1,403 @@
+﻿/*
+  Sayfanın renk ve yerleşimi. Arama yapmaz, yalnız görünümü çizer.
+  Sarı üst kutu, siyah düğme, beyaz kart.
+  hero: sarı üst panel. search: yazı kutusu. card: tarif kartı. details: açılan malzeme ve yapılış.
+*/
+
+:root {
+  /* Kullanılan renkler. ink yazı, paper zemin, citrus sarı. */
+  --ink: #161616;
+  --ink-soft: #5c584f;
+  --paper: #f3f1eb;
+  --paper-deep: #ffe14d;
+  --olive: #161616;
+  --olive-mid: #3d3a33;
+  --citrus: #ffe14d;
+  --citrus-deep: #f5c400;
+  --mist: #ffffff;
+  --line: rgba(22, 22, 22, 0.08);
+  --shadow: 0 1px 2px rgba(22, 22, 22, 0.04), 0 16px 40px rgba(22, 22, 22, 0.06);
+  --radius: 22px;
+  --font-display: "Bricolage Grotesque", Georgia, serif;
+  --font-body: "Figtree", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background: var(--paper);
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: #ffe14d;
+  color: #161616;
+}
+/*
+  Ekranın yerleşimi.
+  hero: sarı üst kutu. search: yazı alanı. card: tarif kartı. details: açılan malzeme listesi.
+*/
+
+.shell {
+  width: min(1080px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 0.85rem 0 4rem;
+}
+
+.hero {
+  /* Sarı üst panel. Arama kutusu bunun içinde durur. */
+  min-height: calc(100dvh - 1.7rem);
+  display: grid;
+  align-content: center;
+  gap: 1.75rem;
+  margin-top: 0.35rem;
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+  border-radius: 32px;
+  background: linear-gradient(165deg, #fff1a8 0%, #ffe14d 48%, #ffd429 100%);
+  box-shadow: 0 24px 60px rgba(196, 154, 0, 0.16);
+  animation: rise 0.7s ease both;
+}
+
+.brand {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 24rem;
+}
+
+.brand-mark {
+  /* Çatal, tabak ve kaşığın durduğu siyah kare. */
+  width: 3.4rem;
+  height: 3.4rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1.05rem;
+  background: #161616;
+  color: #ffe14d;
+  box-shadow: 0 10px 24px rgba(22, 22, 22, 0.16);
+}
+
+.brand-mark svg {
+  display: block;
+  width: 2.15rem;
+  height: 1.4rem;
+}
+
+.brand h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.7rem, 7vw, 4.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: #161616;
+}
+
+.brand p {
+  margin: 0;
+  max-width: 36ch;
+  color: #3a3424;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.search {
+  /* Kullanıcının cümleyi yazdığı beyaz kutu. */
+  display: grid;
+  gap: 0.85rem;
+  max-width: 640px;
+  animation: rise 0.8s 0.08s ease both;
+}
+
+.search textarea {
+  width: 100%;
+  min-height: 7.5rem;
+  resize: vertical;
+  border: 0;
+  border-radius: 20px;
+  padding: 1.15rem 1.25rem;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  box-shadow: 0 10px 30px rgba(120, 90, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.search textarea:focus {
+  box-shadow: 0 0 0 4px rgba(22, 22, 22, 0.12), 0 10px 30px rgba(120, 90, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.search-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.cta {
+  /* Siyah "Tarif öner" düğmesi. */
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1.45rem;
+  background: #161616;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.cta:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #2a2a2a;
+}
+
+.cta:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.hint {
+  color: #3a3424;
+  font-size: 0.9rem;
+}
+
+.status {
+  margin-top: 0.25rem;
+  color: #3a3424;
+  font-size: 0.92rem;
+  min-height: 1.25rem;
+}
+
+.results {
+  /* Kartların dizildiği alt bölüm. */
+  display: grid;
+  gap: 0.9rem;
+  padding-top: 2rem;
+}
+
+.results-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.results-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  letter-spacing: -0.03em;
+  color: #161616;
+}
+
+.meta-pill {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  background: #fff;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+}
+
+.note {
+  /* "Bu sürede tam tarif yok" gibi dürüst uyarı. */
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: #fff6c2;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.card {
+  /* Tek tarif kartı. */
+  border: 1px solid rgba(22, 22, 22, 0.06);
+  border-radius: 22px;
+  background: #fff;
+  padding: 1.15rem 1.25rem 1.25rem;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  color: inherit;
+  animation: rise 0.5s ease both;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card:hover,
+.card[aria-expanded="true"] {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(22, 22, 22, 0.08);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.card h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #161616;
+  background: #ffe14d;
+  border-radius: 999px;
+  padding: 0.28rem 0.6rem;
+}
+
+.reason {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.chev {
+  flex: none;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ffe14d;
+  color: #161616;
+  transition: transform 0.2s ease;
+}
+
+.card[aria-expanded="true"] .chev {
+  transform: rotate(180deg);
+}
+
+.details {
+  /* Karta basınca açılan malzeme ve yapılış. */
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  animation: fade 0.25s ease both;
+}
+
+.details h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #3d3a33;
+}
+
+.details ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+}
+
+.details li + li {
+  margin-top: 0.25rem;
+}
+
+.examples {
+  /* Hazır örnek cümle düğmeleri. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.example {
+  appearance: none;
+  border: 0;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  padding: 0.5rem 0.8rem;
+  color: #161616;
+  cursor: pointer;
+  font-size: 0.85rem;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.example:hover {
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Dar ekranda kutu kenara yapışmasın. */
+  .shell {
+    width: min(1080px, calc(100% - 1rem));
+  }
+
+  .hero {
+    min-height: calc(100dvh - 1.2rem);
+    border-radius: 24px;
+    padding: 1.5rem 1.15rem 1.35rem;
+  }
+
+  .brand h1 {
+    max-width: 10ch;
+  }
+}
+
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.details{text-align:left}
+
